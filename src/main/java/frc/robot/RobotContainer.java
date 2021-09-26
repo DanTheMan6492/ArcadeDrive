@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.AutoDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.DriveTrain;
@@ -27,6 +28,7 @@ public class RobotContainer {
   private final Joystick _rightJoystick;
   private final TankDrive _tankDrive;
   private final ArcadeDrive _arcadeDrive;
+  private final AutoDrive _autoDrive;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -36,8 +38,9 @@ public class RobotContainer {
     _rightJoystick = new Joystick(Constants.USBOrder.One);
     _tankDrive = new TankDrive(_driveTrain, _leftJoystick, _rightJoystick);
     _arcadeDrive = new ArcadeDrive(_driveTrain, _leftJoystick);
+    _autoDrive = new AutoDrive(_driveTrain);
 
-    _driveTrain.setDefaultCommand(_arcadeDrive);
+    _driveTrain.setDefaultCommand(_autoDrive);
 
     configureButtonBindings();
   }
