@@ -40,7 +40,7 @@ public class RobotContainer {
     _arcadeDrive = new ArcadeDrive(_driveTrain, _leftJoystick);
     _autoDrive = new AutoDrive(_driveTrain);
 
-    _driveTrain.setDefaultCommand(_autoDrive);
+    _driveTrain.setDefaultCommand(_arcadeDrive);
 
     configureButtonBindings();
   }
@@ -60,6 +60,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return _autoDrive;
   }
 }

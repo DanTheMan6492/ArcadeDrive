@@ -29,26 +29,26 @@ public class AutoDrive extends CommandBase {
   public void initialize() {
     timer.reset();
     timer.start();
+    System.out.println("STARTED");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     _driveTrain.tankDrive(0.6, 0.6);
+    System.out.println(timer.get());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     _driveTrain.tankDrive(0, 0);
+    timer.reset();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(timer.get() >= 3){
-      return true;
-    }
-    return false;
+    return(timer.get() >= 3);
   }
 }
