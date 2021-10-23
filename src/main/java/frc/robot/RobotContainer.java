@@ -13,6 +13,7 @@ import frc.robot.commands.AutoTurn;
 import frc.robot.commands.DriveForward;
 import frc.robot.commands.DriveTurn;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.PIDDriveForward;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -36,6 +37,7 @@ public class RobotContainer {
   private final AutoTurn _autoTurn;
   private final DriveForward _driveForward;
   private final DriveTurn _driveTurn;
+  private final PIDDriveForward _PIDDriveForward;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -53,12 +55,13 @@ public class RobotContainer {
     _autoDrive = new AutoDrive(_driveTrain);
     _autoTurn = new AutoTurn(_driveTrain, "right");
     _driveForward = new DriveForward(_driveTrain, 5);
+    _PIDDriveForward = new PIDDriveForward(_driveTrain, 5);
     _driveTurn = new DriveTurn(_driveTrain, 90);
 
     _driveTrain.setDefaultCommand(_arcadeDrive);
 
     
-    forward.whenPressed(_driveForward);
+    forward.whenPressed(_PIDDriveForward);
     turn.whenPressed(_driveTurn);
 
     configureButtonBindings();
