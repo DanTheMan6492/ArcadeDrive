@@ -14,27 +14,57 @@ public class PIDDriveForward extends CommandBase {
 
   private final DriveTrain _driveTrain;
   private double distance;
-  private final double kB = 0.5;
+  private double speed = 0;
+  private final double kP = 0.5;
+  private final double kI = 0.1;
+  private final double kD = 0.01;
+  private double errorSum = 0;
+  private double errorRate = 0;
+  private Timer timer;
+  private double error;
+  private double lastTimestamp = 0;
+  private double lastError = 0;
+  private double dt = 0;
+  private final double IntegralLimit = 1;
 
   public PIDDriveForward(DriveTrain dt, double dis) {
     // Use addRequirements() here to declare subsystem dependencies.
     distance = dis;
     _driveTrain = dt;
-
+    timer = new Timer();
+    lastError = dis;
     addRequirements(_driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    timer.reset();
+    timer.start();
+    lastTimestamp = timer.get();
     _driveTrain.resetEncoders();
+    errorSum = 0;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    _driveTrain.tankDrive(kB *(distance + _driveTrain.getPos()), kB * (distance + _driveTrain.getPos()));
+    dt = timer.get() + lastTimestamp;
+    lastTimestamp = timer.get();
+
+    error = (distance - Math.abs(_driveTrain.getPos()));
+    errorRate = (error = lastError)/dt;
+    
+    errorRate = error;
+
+    if(Math.abs(error) == IntegralLimit){
+      errorSum += error * dt;
+    }
+
+    speed = kP * error + kI * errorSum + kD * errorRate;
+    speed *= 0.15;
+    _driveTrain.tankDrive(speed, speed);
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +78,6 @@ public class PIDDriveForward extends CommandBase {
   @Override
   public boolean isFinished() {
     System.out.println(_driveTrain.getPos());
-    return(Math.abs(_driveTrain.getPos()) > distance);
+    return(speed == 0);
   }
 }

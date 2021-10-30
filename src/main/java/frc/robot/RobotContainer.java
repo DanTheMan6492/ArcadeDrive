@@ -55,7 +55,7 @@ public class RobotContainer {
     _autoDrive = new AutoDrive(_driveTrain);
     _autoTurn = new AutoTurn(_driveTrain, "right");
     _driveForward = new DriveForward(_driveTrain, 5);
-    _PIDDriveForward = new PIDDriveForward(_driveTrain, 5);
+    _PIDDriveForward = new PIDDriveForward(_driveTrain, 10);
     _driveTurn = new DriveTurn(_driveTrain, 90);
 
     _driveTrain.setDefaultCommand(_arcadeDrive);

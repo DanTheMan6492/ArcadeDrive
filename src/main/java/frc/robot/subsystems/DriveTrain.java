@@ -51,6 +51,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void arcadeDrive(double xSlide, double ySlide){
     _diffDrive.arcadeDrive(ySlide, xSlide);
+    System.out.println("Hello!!");
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
